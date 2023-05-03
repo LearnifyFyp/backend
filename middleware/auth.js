@@ -4,42 +4,42 @@ import jwt from "jsonwebtoken";
 import User from "../models/users.js";
 
 
-// export const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
-//     const { token } = req.cookies;
-
-//     if (!token) {
-//         return next(new ErrorHandler("Please Login to access this resource", 401));
-//     }
-
-//     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
-
-//     req.user = await User.findById(decodedData.id);
-
-//     next();
-// });
-
-
-
 export const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
-    let token;
+    const { token } = req.cookies;
 
-    for (let i = 0; i < req.rawHeaders.length; i++) {
-        const check = req.rawHeaders[i].split(" ");
-        if (check[0] == "Bearer") {
-            token = check;
-        }
-    }
-
-    if (!token[1]) {
+    if (!token) {
         return next(new ErrorHandler("Please Login to access this resource", 401));
     }
 
-    const decodedData = jwt.verify(token[1], process.env.JWT_SECRET);
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
 
     req.user = await User.findById(decodedData.id);
 
     next();
 });
+
+
+
+// export const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
+//     let token;
+
+//     for (let i = 0; i < req.rawHeaders.length; i++) {
+//         const check = req.rawHeaders[i].split(" ");
+//         if (check[0] == "Bearer") {
+//             token = check;
+//         }
+//     }
+
+//     if (!token[1]) {
+//         return next(new ErrorHandler("Please Login to access this resource", 401));
+//     }
+
+//     const decodedData = jwt.verify(token[1], process.env.JWT_SECRET);
+
+//     req.user = await User.findById(decodedData.id);
+
+//     next();
+// });
 
 
 

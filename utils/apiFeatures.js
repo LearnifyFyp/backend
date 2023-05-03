@@ -8,12 +8,13 @@ export default class Apifeatures {
     search() {
         const keyword = this.queryStr.keyword
             ? {
-                name: {
+                subject: {
                     $regex: this.queryStr.keyword,
                     $options: "i",
                 },
             }
             : {};
+
 
         this.query = this.query.find({ ...keyword });
         return this;
@@ -27,8 +28,7 @@ export default class Apifeatures {
 
         removeFields.forEach((key) => delete queryCopy[key]);
 
-
-        // Filter For Rating //
+        // Filter For Price and Rating //
         let queryStr = JSON.stringify(queryCopy);
         queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
 
