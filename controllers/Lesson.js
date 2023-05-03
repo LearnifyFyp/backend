@@ -110,42 +110,20 @@ export const deleteLesson = catchAsyncErrors(async (req, res, next) => {
 
 
 // Get All My Purchase Lessons --Student //
-// export const myPurchaseLessons = catchAsyncErrors(async (req, res, next) => {
-
-//     const studentId = req.user.id;
-
-//     const purchaseLessons = await Purchase.find({ student: studentId }).populate('lesson').populate('tutor');
-
-//     res.status(200).json({
-//         success: true,
-//         purchaseLessons,
-//     });
-// });
-
-
-
-
-// Get All My Purchase Courses  Student //
 export const myPurchaseLessons = catchAsyncErrors(async (req, res, next) => {
 
-    const purchase = await Purchase.find({ student: req.user._id });
+    const studentId = req.user.id;
 
-    console.log(purchase);
-
-    const lessonIds = purchase.map((purchase) => purchase.lesson);
-
-    const lessons = await Lesson.find({ _id: { $in: lessonIds } });
+    const purchaseLessons = await Purchase.find({ student: studentId }).populate({
+        path: 'lesson',
+        populate: { path: 'user' }
+    });
 
     res.status(200).json({
         success: true,
-        lessons,
+        purchaseLessons,
     });
 });
-
-
-
-
-
 
 
 
