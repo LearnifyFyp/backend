@@ -9,9 +9,9 @@ import cloudinary from "cloudinary";
 // Register User //
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
 
-    // const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    //     folder: "LetsLearn Users Image",
-    // });
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        folder: "LetsLearn Users Image",
+    });
 
     const { name, email, phone, role, password } = req.body;
 
@@ -22,8 +22,8 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
         role,
         password,
         avatar: {
-            public_id: "myCloud.public_id",
-            url: "myCloud.secure_url",
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url,
         },
     });
 
