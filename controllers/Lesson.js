@@ -156,14 +156,13 @@ export const getAllLesson = catchAsyncErrors(async (req, res) => {
         .pagination(resultPerPage);
 
     const lessons = await apiFeature.query.populate('user');
-    const purchased = await Purchase.find();
-
-    console.log(purchased);
+    const purchaseLessons = await Purchase.find();
 
     res.status(200).json({
         success: true,
         lessons,
         lessonCount,
+        purchaseLessons
     })
 });
 
