@@ -4,7 +4,6 @@ import User from "../models/users.js";
 import ErrorHandler from "../utils/errorhandler.js";
 import catchAsyncErrors from "../middleware/catchAsyncErrors.js";
 
-
 export const allMessages = catchAsyncErrors(async (req, res, next) => {
 
   const messages = await Message.find({ chat: req.params.chatId })

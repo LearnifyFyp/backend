@@ -146,7 +146,7 @@ export const mySellLessons = catchAsyncErrors(async (req, res, next) => {
 // Get All Lesson //
 export const getAllLesson = catchAsyncErrors(async (req, res) => {
 
-    const { page = 1, limit = 10, field, category, minRating, maxPrice } = req.query;
+    const { page = 1, limit = 5, field, category, minRating, maxPrice } = req.query;
 
     const filter = {};
     if (field) filter['subject.field'] = field;
