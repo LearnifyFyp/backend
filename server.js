@@ -36,8 +36,13 @@ const server = app.listen(process.env.PORT, () => {
 
 import { Server } from 'socket.io';
 
-
-const io = new Server(3000);
+// Create socket.io server
+const io = new Server(server, {
+    pingTimeout: 60000,
+    cors: {
+        origin: 'http://localhost:3000',
+    },
+});
 
 
 io.on("connection", (socket) => {
@@ -71,7 +76,6 @@ io.on("connection", (socket) => {
         socket.leave(userData._id);
     });
 });
-
 
 
 
