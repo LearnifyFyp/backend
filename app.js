@@ -24,11 +24,16 @@ import User from "./routes/User.js";
 import Lesson from "./routes/Lesson.js"
 import Contact from "./routes/Contact.js";
 import Purchase from "./routes/Purchase.js";
+import Message from "./routes/Message.js";
+import Chat from "./routes/Chat.js";
 
 app.use("/api", User);
 app.use("/api", Lesson);
 app.use("/api", Contact);
 app.use("/api", Purchase);
+app.use("/api", Message);
+app.use("/api", Chat);
+
 
 app.get("/", (req, res) => {
     res.send("server is working");

@@ -8,13 +8,12 @@ export default class Apifeatures {
     search() {
         const keyword = this.queryStr.keyword
             ? {
-                subject: {
+                name: {
                     $regex: this.queryStr.keyword,
                     $options: "i",
                 },
             }
             : {};
-
 
         this.query = this.query.find({ ...keyword });
         return this;
