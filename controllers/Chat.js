@@ -4,6 +4,7 @@ import ErrorHandler from "../utils/errorhandler.js";
 import catchAsyncErrors from "../middleware/catchAsyncErrors.js";
 
 
+// one to one chat fetch //
 export const accessChat = catchAsyncErrors(async (req, res, next) => {
 
   const { userId } = req.body;
@@ -54,9 +55,7 @@ export const accessChat = catchAsyncErrors(async (req, res, next) => {
 
 
 
-//@description     Fetch all chats for a user
-//@route           GET /api/chat/
-//@access          Protected
+//    Fetch all chats for a particular user //
 export const fetchChats = catchAsyncErrors(async (req, res, next) => {
   try {
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
@@ -77,9 +76,9 @@ export const fetchChats = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-//@description     Create New Group Chat
-//@route           POST /api/chat/group
-//@access          Protected
+
+
+// Create New Group Chat //
 export const createGroupChat = catchAsyncErrors(async (req, res, next) => {
   if (!req.body.users || !req.body.name) {
     return res.status(400).send({ message: "Please Fill all the feilds" });
@@ -114,9 +113,9 @@ export const createGroupChat = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-// @desc    Rename Group
-// @route   PUT /api/chat/rename
-// @access  Protected
+
+
+// Rename Chat Group name //
 export const renameGroup = catchAsyncErrors(async (req, res, next) => {
   const { chatId, chatName } = req.body;
 
@@ -140,9 +139,9 @@ export const renameGroup = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
-// @desc    Remove user from Group
-// @route   PUT /api/chat/groupremove
-// @access  Protected
+
+
+// remove user from group //
 export const removeFromGroup = catchAsyncErrors(async (req, res, next) => {
   const { chatId, userId } = req.body;
 
@@ -169,15 +168,13 @@ export const removeFromGroup = catchAsyncErrors(async (req, res, next) => {
 });
 
 
-// @desc    Add user to Group / Leave
-// @route   PUT /api/chat/groupadd
-// @access  Protected
+// Add user to Group / Leave //
 export const addToGroup = catchAsyncErrors(async (req, res, next) => {
 
   const { chatId, userId } = req.body;
 
-  // check if the requester is admin
 
+  // check if the requester is admin
   const added = await Chat.findByIdAndUpdate(
     chatId,
     {

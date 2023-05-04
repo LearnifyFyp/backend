@@ -9,7 +9,7 @@ import { isAuthenticatedUser } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.route("/:chatId").get(isAuthenticatedUser, allMessages);
-router.route("/").post(isAuthenticatedUser, sendMessage);
+router.route("/chat").post(isAuthenticatedUser, sendMessage);
+router.route("/chat/:chatId").get(isAuthenticatedUser, allMessages);
 
 export default router;

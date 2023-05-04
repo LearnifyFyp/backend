@@ -2,6 +2,7 @@ import express from "express";
 
 import {
     registerUser,
+    searchUser,
     loginUser,
     logout,
     forgotPassword,
@@ -25,6 +26,8 @@ import {
 const router = express.Router();
 
 router.route("/register").post(registerUser);
+
+router.route("/search/user").get(isAuthenticatedUser, searchUser);
 
 router.route("/login").post(loginUser);
 
