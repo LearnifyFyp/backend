@@ -19,7 +19,6 @@ import User from "../models/users.js";
 // });
 
 
-
 export const isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     let token;
 

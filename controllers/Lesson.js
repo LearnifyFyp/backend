@@ -3,7 +3,6 @@ import User from "../models/users.js";
 import Purchase from "../models/purchase.js";
 import ErrorHandler from "../utils/errorhandler.js";
 import catchAsyncErrors from "../middleware/catchAsyncErrors.js";
-import ApiFeatures from "../utils/apiFeatures.js";
 
 // Create Course -- Tutor //
 export const createLesson = catchAsyncErrors(async (req, res, next) => {
@@ -17,6 +16,7 @@ export const createLesson = catchAsyncErrors(async (req, res, next) => {
         experiance,
         speaks,
         about,
+
         price,
         country,
         city,
@@ -49,6 +49,7 @@ export const createLesson = catchAsyncErrors(async (req, res, next) => {
     })
 
 });
+
 
 // Get My Lesson --Tutor //
 export const getMyLesson = catchAsyncErrors(async (req, res, next) => {
@@ -142,27 +143,30 @@ export const mySellLessons = catchAsyncErrors(async (req, res, next) => {
 });
 
 
-
-// Get All Products //
+// Get All Lesson //
 export const getAllLesson = catchAsyncErrors(async (req, res) => {
 
-    const resultPerPage = 30;
+    const { page = 1, limit = 10, field, category, minRating, maxPrice } = req.query;
 
-    const lessonCount = await Lesson.countDocuments();
+    const filter = {};
+    if (field) filter['subject.field'] = field;
+    if (category) filter['subject.category'] = { $in: category.split(',') };
+    if (minRating) filter.rating = { $gte: minRating };
+    if (maxPrice) filter.price = { $lte: maxPrice };
 
-    const apiFeature = new ApiFeatures(Lesson.find(), req.query)
-        .search()
-        .filter()
-        .pagination(resultPerPage);
+    const lessons = await Lesson.find(filter).populate('user')
+        .limit(limit * 1)
+        .skip((page - 1) * limit);
 
-    const lessons = await apiFeature.query.populate('user');
+    const count = await Lesson.countDocuments(filter);
+
     const purchaseLessons = await Purchase.find();
 
     res.status(200).json({
-        success: true,
-        lessons,
-        lessonCount,
-        purchaseLessons
+        total_pages: Math.ceil(count / limit),
+        current_page: parseInt(page),
+        lessons: lessons,
+        purchaseLessons,
     })
 });
 
