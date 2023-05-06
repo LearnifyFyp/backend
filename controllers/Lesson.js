@@ -151,7 +151,7 @@ export const getAllLesson = catchAsyncErrors(async (req, res) => {
     const filter = {};
     if (field) filter['subject.field'] = field;
     if (category) filter['subject.category'] = { $in: category.split(',') };
-    if (minRating) filter.rating = { $gte: minRating };
+    if (minRating) filter.ratings = { $gte: minRating };
     if (maxPrice) filter.price = { $lte: maxPrice };
 
     const lessons = await Lesson.find(filter).populate('user')
