@@ -13,7 +13,7 @@ import { isAuthenticatedUser } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.route("/chat").post(isAuthenticatedUser, accessChat);
+router.route("/chat/new").post(isAuthenticatedUser, accessChat);
 router.route("/chat").get(isAuthenticatedUser, fetchChats);
 router.route("/chat/group").post(isAuthenticatedUser, createGroupChat);
 router.route("/chat/rename").put(isAuthenticatedUser, renameGroup);
