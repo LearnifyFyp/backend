@@ -13,7 +13,7 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
         width: 1280,
         height: 720,
         crop: "limit",
-        folder: "LetsLearn Users Image",
+        folder: "Learnify Users Image",
     });
 
 
@@ -33,7 +33,7 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
 
     sendToken(user, 201, res);
 
-    const message = `Welcome to LeatsLearn. 
+    const message = `Welcome to Learnify. 
     Hope you have a good time !
     Here are your detail
     Name -- ${user.name}
@@ -136,7 +136,7 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     try {
         await sendEmail({
             email: user.email,
-            subject: `LetsLearn Password Recovery`,
+            subject: `Learnify Password Recovery`,
             message,
         });
 
@@ -252,7 +252,7 @@ export const updateProfile = catchAsyncErrors(async (req, res, next) => {
             width: 1280,
             height: 720,
             crop: "limit",
-            folder: "LetsLearn Users Image",
+            folder: "Learnify Users Image",
         });
 
         newUserData.avatar = {
