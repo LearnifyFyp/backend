@@ -146,13 +146,16 @@ export const mySellLessons = catchAsyncErrors(async (req, res, next) => {
 // Get All Lesson //
 export const getAllLesson = catchAsyncErrors(async (req, res) => {
 
-    const { page = 1, limit = 30, field, category, minRating, maxPrice } = req.query;
+    const { page = 1, limit = 30, field, category, minRating, maxPrice, days, times } = req.query;
 
     const filter = {};
     if (field) filter['subject.field'] = field;
     if (category) filter['subject.category'] = { $in: category.split(',') };
+    if (days) filter['available.days'] = days;
+    if (times) filter['available.times'] = times;
     if (minRating) filter.ratings = { $gte: minRating };
     if (maxPrice) filter.price = { $lte: maxPrice };
+
 
     const lessons = await Lesson.find(filter).populate('user')
         .limit(limit * 1)
