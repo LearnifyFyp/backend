@@ -10,10 +10,9 @@ import cloudinary from "cloudinary";
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
 
     const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-        width: 1280,
-        height: 720,
-        crop: "limit",
-        folder: "Learnify Users Image",
+        folder: "Learnify",
+        width: 150,
+        crop: "scale",
     });
 
 
@@ -249,10 +248,9 @@ export const updateProfile = catchAsyncErrors(async (req, res, next) => {
         await cloudinary.v2.uploader.destroy(imageId);
 
         const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-            width: 1280,
-            height: 720,
-            crop: "limit",
-            folder: "Learnify Users Image",
+            folder: "Learnify",
+            width: 150,
+            crop: "scale",
         });
 
         newUserData.avatar = {
