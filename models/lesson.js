@@ -65,15 +65,6 @@ const lessonSchema = new mongoose.Schema({
         }
     ],
 
-    startDate: {
-        type: String,
-        required: [true, "Please Enter Start Time"],
-    },
-
-    endDate: {
-        type: String,
-        required: [true, "Please Enter End Time"],
-    },
 
     link: {
         type: String,

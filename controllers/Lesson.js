@@ -16,13 +16,10 @@ export const createLesson = catchAsyncErrors(async (req, res, next) => {
         experiance,
         speaks,
         about,
-
         price,
         country,
         city,
         available,
-        startDate,
-        endDate,
         link,
     } = req.body;
 
@@ -37,8 +34,6 @@ export const createLesson = catchAsyncErrors(async (req, res, next) => {
         country,
         city,
         available,
-        startDate,
-        endDate,
         link,
         user,
     });
