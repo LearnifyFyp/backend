@@ -151,11 +151,20 @@ export const getAllLesson = catchAsyncErrors(async (req, res) => {
     const filter = {};
     if (field) filter['subject.field'] = field;
     if (category) filter['subject.category'] = { $in: category.split(',') };
-    if (days) filter['available.days'] = days;
-    if (times) filter['available.times'] = times;
     if (minRating) filter.ratings = { $gte: minRating };
     if (maxPrice) filter.price = { $lte: maxPrice };
 
+
+    // Filter available days //
+    if (days) {
+        filter['available.days'] = { $in: days.split(',') };
+    }
+
+    // Filter available times //
+    if (times) {
+        const timeRanges = times.split(',');
+        filter['available.times'] = { $elemMatch: { $or: timeRanges.map(range => ({ $gte: range.split(' to ')[0], $lte: range.split(' to ')[1] })) } };
+    }
 
     const lessons = await Lesson.find(filter).populate('user')
         .limit(limit * 1)
