@@ -1,0 +1,90 @@
+Summary
+As a student, I should be able to search for tutors, so that I can choose a suitable tutor for my academic needs.
+
+Acceptance Criteria
+GIVEN a student is searching for tutors in the Learnify platform
+WHEN the app hits the /tutors/search endpoint with a valid GET request containing body parameters:
+
+keywords (optional): array of keywords to match against tutor profiles
+course (optional): the course that the student is seeking help with
+THEN the app should receive a status 200
+AND in the response, the following information should be returned:
+
+headers
+list of tutors
+
+Sample Request/Sample Response
+
+headers: {
+error: 0,
+message: "..."
+}
+body: [
+{
+tutor_id: 1,
+full_name: "John Doe",
+average_rating: 4.5,
+total_reviews: 10,
+courses: [
+{
+course_id: 1,
+course_name: "Data Structures"
+},
+{
+course_id: 2,
+course_name: "Algorithms"
+}
+],
+hourly_rate: 500
+},
+...
+]
+
+Resources
+Development URL: {Here goes a URL to the feature on development API}
+Production URL: {Here goes a URL to the feature on production API}
+
+Dev Notes
+This endpoint will return all tutors that match the given search criteria. This endpoint is going to be accessible for both students and admins.
+
+Testing Notes
+Scenario 1: GET request is successful
+GIVEN a student is searching for tutors in the app
+WHEN the app hits the /tutors/search endpoint with a valid GET request
+THEN the app should receive a status 200
+AND the body should be an array
+AND the first item of the array should be an object containing the following fields:
+
+tutor_id
+full_name
+average_rating
+total_reviews
+courses
+hourly_rate
+AND the key courses should be an array
+AND the first item of the array should be an object containing the following fields:
+
+course_id
+course_name
+
+Scenario 2: GET request is unsuccessful due to no tutors found
+GIVEN a student is searching for tutors in the app
+WHEN the app hits the /tutors/search endpoint with a valid GET request
+AND the keywords in the body do not match any tutor profiles
+THEN the app should receive a status 404
+AND the response headers' code parameter should contain "NotFoundException"
+
+Scenario 3: GET request is incorrect
+GIVEN a student is searching for tutors in the app
+WHEN the app hits the /tutors/search endpoint with a GET request
+AND the body contains an incorrect key
+THEN the app should receive a status 422
+AND the response headers' code parameter should contain "InvalidPropertiesException"
+AND the response headers' data parameter should contain the name of the invalid parameters
+
+Scenario 4: GET request is unauthorized
+GIVEN a student is searching for tutors in the app
+WHEN the app hits the /tutors/search endpoint with a valid GET request
+AND the request contains no authorization token
+THEN the app should receive a status 401 Unauthorized
+AND the response headers' code parameter should contain "TokenMissingException"
