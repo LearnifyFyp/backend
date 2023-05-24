@@ -1,2 +1,2 @@
-# letslearn
-lets learn web app
+# learnify
+learnify web app
