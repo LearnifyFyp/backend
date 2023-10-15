@@ -35,8 +35,8 @@ export const processPurchase = catchAsyncErrors(async (req, res, next) => {
     try {
         await sendEmail({
             email: teacher.user.email,
-            subject: `Your lesson is purchased by a student`,
-            message: `Dear Tutor,\n\nYour lesson has been purchased by ${student.name}. Please check your account dashboard for further details.\n\nRegards,\nLets Learn`,
+            subject: `Your lesson is booked by a student`,
+            message: `Dear Tutor,\n\nYour lesson has been booked by ${student.name}. Please check your account for further details.\n\nRegards,\nLearnify`,
         });
 
     } catch (error) {
@@ -48,7 +48,7 @@ export const processPurchase = catchAsyncErrors(async (req, res, next) => {
         await sendEmail({
             email: student.email,
             subject: `Lesson Details`,
-            message: `Dear Student, Thank you for purchasing a lesson. Here are the details of the lesson:\n\nLesson Date And time ${dayTime}\nMeeting Link: ${teacher.link}`,
+            message: `Dear Student, Thank you for booking a lesson. Here are the details of the lesson:\n\nLesson Date And time ${dayTime}\nMeeting Link: ${teacher.link}`,
         });
 
     } catch (error) {

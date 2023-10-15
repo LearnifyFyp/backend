@@ -16,13 +16,10 @@ export const createLesson = catchAsyncErrors(async (req, res, next) => {
         experiance,
         speaks,
         about,
-
         price,
         country,
         city,
         available,
-        startDate,
-        endDate,
         link,
     } = req.body;
 
@@ -37,8 +34,6 @@ export const createLesson = catchAsyncErrors(async (req, res, next) => {
         country,
         city,
         available,
-        startDate,
-        endDate,
         link,
         user,
     });
@@ -146,13 +141,25 @@ export const mySellLessons = catchAsyncErrors(async (req, res, next) => {
 // Get All Lesson //
 export const getAllLesson = catchAsyncErrors(async (req, res) => {
 
-    const { page = 1, limit = 30, field, category, minRating, maxPrice } = req.query;
+    const { page = 1, limit = 30, field, category, minRating, maxPrice, days, times } = req.query;
 
     const filter = {};
     if (field) filter['subject.field'] = field;
     if (category) filter['subject.category'] = { $in: category.split(',') };
     if (minRating) filter.ratings = { $gte: minRating };
     if (maxPrice) filter.price = { $lte: maxPrice };
+
+
+    // Filter available days //
+    if (days) {
+        filter['available.days'] = { $in: days.split(',') };
+    }
+
+    // Filter available times //
+    if (times) {
+        const timeRanges = times.split(',');
+        filter['available.times'] = { $elemMatch: { $or: timeRanges.map(range => ({ $gte: range.split(' to ')[0], $lte: range.split(' to ')[1] })) } };
+    }
 
     const lessons = await Lesson.find(filter).populate('user')
         .limit(limit * 1)

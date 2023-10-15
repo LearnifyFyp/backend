@@ -10,8 +10,11 @@ import cloudinary from "cloudinary";
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
 
     const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-        folder: "LetsLearn Users Image",
+        folder: "Learnify",
+        width: 150,
+        crop: "scale",
     });
+
 
     const { name, email, phone, role, password } = req.body;
 
@@ -29,7 +32,7 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
 
     sendToken(user, 201, res);
 
-    const message = `Welcome to LeatsLearn. 
+    const message = `Welcome to Learnify. 
     Hope you have a good time !
     Here are your detail
     Name -- ${user.name}
@@ -132,7 +135,7 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     try {
         await sendEmail({
             email: user.email,
-            subject: `LetsLearn Password Recovery`,
+            subject: `Learnify Password Recovery`,
             message,
         });
 
@@ -245,7 +248,9 @@ export const updateProfile = catchAsyncErrors(async (req, res, next) => {
         await cloudinary.v2.uploader.destroy(imageId);
 
         const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-            folder: "LetsLearn Users Image",
+            folder: "Learnify",
+            width: 150,
+            crop: "scale",
         });
 
         newUserData.avatar = {
