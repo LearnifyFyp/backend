@@ -35,7 +35,7 @@ import { Server } from "socket.io";
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "https://learnify-project.netlify.app",
+    origin: "http://localhost:4000",
   },
 });
 
